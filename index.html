@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 12px; background: #f0f2f5; }
+    textarea { width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+    button { margin-top: 8px; padding: 10px 16px; border: 0; border-radius: 8px; background: #2481cc; color: #fff; }
+    .post { background: #fff; padding: 12px; border-radius: 8px; margin-top: 12px; }
+    .name { font-weight: bold; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <h3 id="hello">স্বাগতম</h3>
+  <textarea id="text" rows="3" placeholder="মনে কী চলছে?"></textarea>
+  <button onclick="addPost()">পোস্ট করো</button>
+  <div id="feed"></div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+    const user = tg.initDataUnsafe.user || { first_name: "টেস্ট ইউজার" };
+    document.getElementById("hello").innerText = "স্বাগতম, " + user.first_name;
+
+    function addPost() {
+      const t = document.getElementById("text");
+      if (!t.value.trim()) return;
+      const div = document.createElement("div");
+      div.className = "post";
+      const n = document.createElement("div");
+      n.className = "name";
+      n.textContent = user.first_name;
+      const p = document.createElement("div");
+      p.textContent = t.value;
+      div.append(n, p);
+      document.getElementById("feed").prepend(div);
+      t.value = "";
+    }
+  </script>
+</body>
+</html>
